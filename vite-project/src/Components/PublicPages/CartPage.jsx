@@ -44,24 +44,60 @@ const CartPage = () => {
                     <div className='grid md:grid-cols-3 gap-8'> 
                     <div className='md:col-span-2 space-y-4'>
                     {cartItem.map(function(cart){
-                        return(
-                        <div key={cart._id} className='flex flex-col md:flex-row items-center bg-white shadow-md rounded-lg p-4'> 
-                            <img src={`http://localhost:4100/${cart.image}`} alt={cart.name} className='w-32 h-32 object-cover rounded' />
-                            <div className='flex-1 ml-0 md:ml-6 text-center md:text-left mt-4 md:mt-0'>
-                                <h2 className='text-lg font-semibold'>{cart.name} </h2> 
-                                <p>Quantity: {cart.quantity}</p>
-                                <p className='text-gray-600'>Flavour: {cart.flavour}</p>
-                                <p className='text-gray-600'>Type: {cart.eggChoice}</p>                            
-                                <p className='text-gray-800 font-semibold mt-1'>Price: ₹{cart.price}  </p>
+                        return (
+                          <div
+                            key={cart._id}
+                            className="flex flex-col md:flex-row items-center bg-white shadow-md rounded-lg p-4"
+                          >
+                            <img
+                              src={`http://localhost:4100/${cart.image}`}
+                              alt={cart.name}
+                              className="w-32 h-32 object-cover rounded"
+                            />
+                            <div className="flex-1 ml-0 md:ml-6 text-center md:text-left mt-4 md:mt-0">
+                              <h2 className="text-lg font-semibold">
+                                {cart.name}{" "}
+                              </h2>
+                              <p>Quantity: {cart.quantity}</p>
+                              <p className="text-gray-600">
+                                Flavour: {cart.flavour}
+                              </p>
+                              <p className="text-gray-600">
+                                Type: {cart.eggChoice}
+                              </p>
+                              <p className="text-gray-800 font-semibold mt-1">
+                                Price: ₹
+                                {(
+                                  cart.price * (cart.quantityCount || 1)
+                                ).toFixed(2)}{" "}
+                              </p>
                             </div>
                             <div className="flex justify-center md:justify-start items-center mt-3 space-x-2">
-                                <button onClick={() => handleDecrement(cart._id)} className="bg-gray-200 px-2 py-1 rounded">-</button>
-                                <span className='font-medium'>{cart.quantityCount || 1}</span>
-                                <button onClick={() => handleIncrement(cart._id)}  className="bg-gray-200 px-2 py-1 rounded" >+</button>
+                              <button
+                                onClick={() => handleDecrement(cart._id)}
+                                className="bg-gray-200 px-2 py-1 rounded"
+                              >
+                                -
+                              </button>
+                              <span className="font-medium">
+                                {cart.quantityCount || 1}
+                              </span>
+                              <button
+                                onClick={() => handleIncrement(cart._id)}
+                                className="bg-gray-200 px-2 py-1 rounded"
+                              >
+                                +
+                              </button>
                             </div>
 
-                            <button onClick={() => handleRemove(cart._id)}   className="mt-3 text-red-500 hover:text-red-700">Remove</button>
-                        </div>)
+                            <button
+                              onClick={() => handleRemove(cart._id)}
+                              className="mt-3 text-red-500 hover:text-red-700"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        );
                     })}
                     </div>
                     </div>) 

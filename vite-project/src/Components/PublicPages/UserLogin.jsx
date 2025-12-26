@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { startCreateLogin } from "../../Actions/UserAction";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{5,}$/; //min 5 characters, 1 upper case letter, 1 lower case letter, 1 digit
+const passwordRules =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/; //min 5 characters, 1 upper case letter, 1 lower case letter, 1 digit
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 
 const UserLogin = (props) => {
   const dispatch = useDispatch();
@@ -28,15 +30,16 @@ const UserLogin = (props) => {
           })
           .required("Required"),
       }),
-      onSubmit: (values) => {
+      onSubmit: (values,  {resetForm}) => {
+                    console.log("Form values:", values);
         dispatch(startCreateLogin(values, navigate))
-        toast.sucess("User registered successfully", {
+        toast.sucess("User login successfully", {
           position: "top-center",
           autoClose: 2000,
         });
         resetForm();
       },
-    });
+    }); 
   
 
   return (
@@ -58,6 +61,7 @@ const UserLogin = (props) => {
             <input
               type="text"
               id="email"
+              name="email"
               autoComplete="off"
               value={formik.values.email}
               onChange={formik.handleChange}
@@ -80,6 +84,7 @@ const UserLogin = (props) => {
             <input
               type="password"
               id="password"
+              name="password"
               autoComplete="off"
               value={formik.values.password}
               onChange={formik.handleChange}

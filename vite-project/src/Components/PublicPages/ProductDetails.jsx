@@ -110,7 +110,7 @@ const ProductDetails = () => {
                             </div>
                         </div>
 
-                        <button onClick={() => handleAddtoCart(id)} className='bg-yellow-600 hover:bg-yellow-100'> Add to Cart </button>
+                        <button onClick={() => handleAddtoCart(id)} className='bg-yellow-600 px-4 py-2 rounded-md hover:bg-yellow-100'> Add to Cart </button>
                    
             </div>
         </div>

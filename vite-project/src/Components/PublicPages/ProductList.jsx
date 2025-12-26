@@ -1,7 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect,useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { startGetProduct } from '../../Actions/ProductAction'
 import { Link } from 'react-router-dom'
+
+ function debounce(fn, delay) {
+   let timer;
+   return function (...args) {
+     clearTimeout(timer);
+
+     timer = setTimeout(() => {
+       fn(...args);
+     }, delay);
+   };
+ }
 
 const ProductList = () => {
     const dispatch = useDispatch()
@@ -16,7 +27,7 @@ const ProductList = () => {
         dispatch(startGetProduct())
     },[dispatch])
 
-    let counter =0
+    // let counter =0
 
     function handleSearch(e){
         // setRawInput(e.target.value);
@@ -37,22 +48,16 @@ const ProductList = () => {
     // }
     // const betterFunction = doSomeMagic(handleSearch, 300)
 
-    function debounce(fn, delay){
-        let timer
-        return function(...args){
-            clearTimeout(timer)
+   
 
-             timer = setTimeout(() => {
-               fn(...args);
-             }, delay);
-        }  
-    }
-
-    const debouncedSearch = useCallback(debounce((value) =>{
-        setSearch(value.toLowerCase())
-    }, 300),
-    [search]
-)
+   const debouncedSearch = useMemo(
+     () =>
+       debounce((value) => {
+         console.log("Debounced input:", value);
+         setSearch(value.toLowerCase());
+       }, 300),
+     []
+   );
 
     const filetredValue = products.filter(function(ele){
         return ele.category.toLowerCase().includes(search)

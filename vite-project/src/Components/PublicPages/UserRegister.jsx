@@ -4,8 +4,10 @@ import { startCreateRegister } from "../../Actions/UserAction";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{5,}$/; //min 5 characters, 1 upper case letter, 1 lower case letter, 1 digit
+const passwordRules =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/; //min 5 characters, 1 upper case letter, 1 lower case letter, 1 digit
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 
 
 const UserRegister = (props) => {
@@ -34,22 +36,18 @@ const UserRegister = (props) => {
       password: "",
     },
     validationSchema: Yup.object({
-      username: Yup.string()
-        .min(3,"Please enter username")
-        .required("Required"),
-      email: Yup.string()
-        .email("Please enter a valid email")
-        .required("Required"),
-      password: Yup.string()
-        .min(5)
+      username: Yup.string().min(3,"Please enter username").required("Required"),
+      email: Yup.string().email("Please enter a valid email").required("Required"),
+      password: Yup.string().min(5)
         .matches(passwordRules, {
           message: "Please create a stronger password",
         })
         .required("Required"),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, {resetForm}) => {
+        console.log("Form values:", values);
       dispatch(startCreateRegister(values, navigate));
-      toast.sucess("User registered successfully", {
+      toast.success("User registered successfully", {
         position: "top-center",
         autoClose: 2000,
       });
@@ -76,6 +74,7 @@ const UserRegister = (props) => {
             <input
               type="text"
               id="username"
+              name="username"
               autoComplete="off"
               value={formik.values.username}
               onChange={formik.handleChange}
@@ -99,6 +98,7 @@ const UserRegister = (props) => {
             <input
               type="text"
               id="email"
+              name="email"
               autoComplete="off"
               value={formik.values.email}
               onChange={formik.handleChange}
@@ -121,6 +121,7 @@ const UserRegister = (props) => {
             <input
               type="password"
               id="password"
+              name="password"
               autoComplete="off"
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -136,7 +137,7 @@ const UserRegister = (props) => {
 
           <input
             type="submit"
-            value="submit"
+            value="Submit"
             className="w-full bg-pink-600 text-white py-2 px-4 rounded-lg hover:bg-pink-700 transition"
           />
         </form>
